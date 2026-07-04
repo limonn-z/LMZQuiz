@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="QuizSystem.Business/QuizSystem.Business.csproj" />
+    <Project Path="QuizSystem.Core/QuizSystem.Core.csproj" />
+    <Project Path="QuizSystem.Data/QuizSystem.Data.csproj" />
+    <Project Path="QuizSystem.WPF/QuizSystem.WPF.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>
