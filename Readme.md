@@ -172,9 +172,13 @@ Category
 ## Relationships giữa các entity:
 
 ```
-Category 1 --- * Question
-Question 1 --- * Answer
-
+Category    1 --- *     Exam
+Category    1 --- *     Question
+Question    1 --- *     Answer
+Question    1 --- *     ExamQuestion
+Exam        1 --- *     ExamQuestion
+Exam        1 --- *     ExamResult
+User 	    1 --- *     ExamResult
 ```
 
 ---
