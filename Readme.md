@@ -126,7 +126,7 @@ LMZQuiz/                             ← Repo GitHub
 │   │   │   ├── IQuestionRepository.cs
 │   │   │   └── IExamRepository.cs
 │   │   ├── Enums/                   # Các kiểu liệt kê
-│   │   │   ├── DifficultyLevel.cs
+│   │   │   ├── DifficultyLevel.cs  
 │   │   │   └── QuestionType.cs
 │   │   └── Constants/               # Các hằng số dùng chung
 │   │       └── AppConstants.cs
@@ -159,6 +159,22 @@ LMZQuiz/                             ← Repo GitHub
 │   └── QuizSystem.Tests/
 │
 └── docs/                            # Tài liệu (sắp có)
+```
+
+## Sơ đồ phân tầng giữa các entity:
+
+```
+Category
+   └── Question
+          └── Answer
+```
+
+## Relationships giữa các entity:
+
+```
+Category 1 --- * Question
+Question 1 --- * Answer
+
 ```
 
 ---

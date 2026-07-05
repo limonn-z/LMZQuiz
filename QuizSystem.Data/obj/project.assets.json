@@ -1251,6 +1251,16 @@
         "build": {
           "buildTransitive/net8.0/_._": {}
         }
+      },
+      "QuizSystem.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/QuizSystem.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/QuizSystem.Core.dll": {}
+        }
       }
     }
   },
@@ -3658,12 +3668,18 @@
         "system.security.cryptography.protecteddata.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "QuizSystem.Core/1.0.0": {
+      "type": "project",
+      "path": "../QuizSystem.Core/QuizSystem.Core.csproj",
+      "msbuildProject": "../QuizSystem.Core/QuizSystem.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
       "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.9",
-      "Microsoft.EntityFrameworkCore.Tools >= 10.0.9"
+      "Microsoft.EntityFrameworkCore.Tools >= 10.0.9",
+      "QuizSystem.Core >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -3698,7 +3714,11 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\__Limonz\\VS2022\\Apps\\LMZQuiz\\QuizSystem.Core\\QuizSystem.Core.csproj": {
+              "projectPath": "D:\\__Limonz\\VS2022\\Apps\\LMZQuiz\\QuizSystem.Core\\QuizSystem.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

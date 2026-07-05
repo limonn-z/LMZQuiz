@@ -611,6 +611,44 @@
         "build": {
           "buildTransitive/net6.0/_._": {}
         }
+      },
+      "QuizSystem.Business/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "QuizSystem.Core": "1.0.0",
+          "QuizSystem.Data": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/QuizSystem.Business.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/QuizSystem.Business.dll": {}
+        }
+      },
+      "QuizSystem.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/QuizSystem.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/QuizSystem.Core.dll": {}
+        }
+      },
+      "QuizSystem.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.9",
+          "QuizSystem.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/QuizSystem.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/QuizSystem.Data.dll": {}
+        }
       }
     }
   },
@@ -1506,12 +1544,29 @@
         "system.memory.data.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "QuizSystem.Business/1.0.0": {
+      "type": "project",
+      "path": "../QuizSystem.Business/QuizSystem.Business.csproj",
+      "msbuildProject": "../QuizSystem.Business/QuizSystem.Business.csproj"
+    },
+    "QuizSystem.Core/1.0.0": {
+      "type": "project",
+      "path": "../QuizSystem.Core/QuizSystem.Core.csproj",
+      "msbuildProject": "../QuizSystem.Core/QuizSystem.Core.csproj"
+    },
+    "QuizSystem.Data/1.0.0": {
+      "type": "project",
+      "path": "../QuizSystem.Data/QuizSystem.Data.csproj",
+      "msbuildProject": "../QuizSystem.Data/QuizSystem.Data.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0-windows": [
       "CommunityToolkit.Mvvm >= 8.4.2",
-      "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.9"
+      "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.9",
+      "QuizSystem.Business >= 1.0.0",
+      "QuizSystem.Core >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -1546,7 +1601,14 @@
         "net10.0-windows": {
           "framework": "net10.0-windows7.0",
           "targetAlias": "net10.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\__Limonz\\VS2022\\Apps\\LMZQuiz\\QuizSystem.Business\\QuizSystem.Business.csproj": {
+              "projectPath": "D:\\__Limonz\\VS2022\\Apps\\LMZQuiz\\QuizSystem.Business\\QuizSystem.Business.csproj"
+            },
+            "D:\\__Limonz\\VS2022\\Apps\\LMZQuiz\\QuizSystem.Core\\QuizSystem.Core.csproj": {
+              "projectPath": "D:\\__Limonz\\VS2022\\Apps\\LMZQuiz\\QuizSystem.Core\\QuizSystem.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
