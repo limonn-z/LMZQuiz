@@ -9,20 +9,21 @@
 
 - [x] **Giai đoạn 0** — Chuẩn bị & Setup môi trường
 - [x] **Giai đoạn 1** — Thiết kế Database & Models
-- [ ] **Giai đoạn 2** — Dựng khung project & EF Core *(đang làm)*
+- [ ] **Giai đoạn 2** — Dựng khung project & EF Core _(đang làm)_
 - [ ] **Giai đoạn 3** — Quản lý ngân hàng câu hỏi
 - [ ] **Giai đoạn 4** — Tạo đề thi
 - [ ] **Giai đoạn 5** — Giao diện làm bài
 - [ ] **Giai đoạn 6** — Chấm điểm & lưu kết quả
 - [ ] **Giai đoạn 7** — Thống kê & báo cáo
 - [ ] **Giai đoạn 8** — Đóng gói & phát hành
-- [ ] **Giai đoạn 9** — Nâng cấp lên Online *(tương lai)*
+- [ ] **Giai đoạn 9** — Nâng cấp lên Online _(tương lai)_
 
 ---
 
 ## ✅ Giai đoạn 0 — Chuẩn bị & Setup môi trường
 
 **Đã cài / tạo:**
+
 - Visual Studio 2022
 - .NET SDK — dự án thực tế đang chạy **net10.0** (README ghi .NET 8 ban đầu, đã nâng cấp)
 - Solution `LMZQuiz.slnx` gồm 4 project:
@@ -32,10 +33,12 @@
   - `QuizSystem.WPF` (WPF App)
 
 **NuGet package đã cài sẵn:**
+
 - `QuizSystem.Data`: `Microsoft.EntityFrameworkCore.SqlServer`, `Microsoft.EntityFrameworkCore.Tools`
 - `QuizSystem.WPF`: `CommunityToolkit.Mvvm`
 
 **Project Reference đã thiết lập (chiều phụ thuộc):**
+
 ```
 Core   → (không tham chiếu ai)
 Data   → Core
@@ -48,6 +51,7 @@ WPF    → Core, Business   (KHÔNG tham chiếu Data)
 ## ✅ Giai đoạn 1 — Thiết kế Database & Models
 
 **Folder/file đã tạo trong `QuizSystem.Core`:**
+
 ```
 QuizSystem.Core/
 ├── Models/
@@ -65,6 +69,7 @@ QuizSystem.Core/
 ```
 
 **Quy tắc đã thống nhất và áp dụng xuyên suốt:**
+
 - `Id` → khóa chính. `TênClassKhác + Id` → khóa ngoại.
 - Enum lưu database → luôn gán số tường minh (`= 0, = 1, ...`), tránh lỗi khi thêm giá trị mới về sau.
 - Danh sách cố định không đổi (độ khó, loại câu hỏi) → dùng `enum`. Danh sách người dùng tự thêm được (môn học) → tách bảng riêng.
@@ -72,6 +77,7 @@ QuizSystem.Core/
 - Mỗi quan hệ 1-nhiều có đủ Navigation Property 2 chiều (`Category.Questions` ↔ `Question.Category`).
 
 **Quan hệ đã hoàn thiện:**
+
 ```
 Category 1 --- * Question
 Category 1 --- * Exam
@@ -86,17 +92,19 @@ User     1 --- * ExamResult
 
 ---
 
-## ⏳ Giai đoạn 2 — Dựng khung project & EF Core *(đang làm)*
+## ⏳ Giai đoạn 2 — Dựng khung project & EF Core _(đang làm)_
 
 **Thông tin SQL Server đã xác nhận:**
-- Server Name: `.\SQLEXPRESS`
+
+- Server Name: `.\SQLEXPRESS` hoặc tên server máy bạn
 - Authentication: Windows Authentication (Trusted Connection)
 - Connection string dự kiến:
   ```
-  Server=.\SQLEXPRESS;Database=LMZQuizDb;Trusted_Connection=True;TrustServerCertificate=True;
+  Server=.\SQLEXPRESS;Database=*****;Trusted_Connection=True;TrustServerCertificate=True;
   ```
 
 **Việc cần làm trong giai đoạn này:**
+
 - [ ] Tạo `QuizSystem.Data/AppDbContext.cs` — kế thừa `DbContext`, khai báo 7 `DbSet<>`
 - [ ] Thiết lập nơi lưu connection string (ví dụ `appsettings.json` trong `QuizSystem.WPF`)
 - [ ] Cài `Add-Migration InitialCreate` (sinh migration đầu tiên)
@@ -104,8 +112,9 @@ User     1 --- * ExamResult
 - [ ] Mở SSMS kiểm tra lại 7 bảng đã tạo đúng như thiết kế Giai đoạn 1
 
 **NuGet package cần cài thêm (nếu chưa có), sẽ xác nhận khi tới bước dùng đến:**
+
 - Có thể cần `Microsoft.Extensions.Configuration.Json` (đọc file `appsettings.json`) — chưa xác nhận, sẽ cập nhật khi tới bước đó.
 
 ---
 
-*(Các giai đoạn 3 → 9 sẽ được bổ sung chi tiết khi thực hiện tới, theo đúng cấu trúc mục ở trên.)*
+_(Các giai đoạn 3 → 9 sẽ được bổ sung chi tiết khi thực hiện tới, theo đúng cấu trúc mục ở trên.)_
