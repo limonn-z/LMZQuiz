@@ -85,6 +85,12 @@ QuizSystem.Core/
 
 **Quy tắc đã thống nhất và áp dụng xuyên suốt:**
 
+- Lưu ý:
+  - Các class xương sống của app phải đặt trong folder `Models/` để quản lý, còn về mặt thiết kế thì bạn phải tự thiết kế class theo phần mềm của bạn.
+  - Các class phía trên chỉ là xương sống của phần mềm hệ thống trắc nghiệm ! Nếu bạn cũng muốn làm thì đây là nơi tuyệt nhất để bạn kham khảo.
+
+  **Quy tắc đã thống nhất và áp dụng xuyên suốt:**
+
 - `Id` → khóa chính. `TênClassKhác + Id` → khóa ngoại.
 - Enum lưu database → luôn gán số tường minh (`= 0, = 1, ...`), tránh lỗi khi thêm giá trị mới về sau.
 - Danh sách cố định không đổi (độ khó, loại câu hỏi) → dùng `enum`. Danh sách người dùng tự thêm được (môn học) → tách bảng riêng.
