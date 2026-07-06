@@ -83,11 +83,10 @@ QuizSystem.Core/
     └── DifficultyLevel.cs       ← Easy = 0, Medium = 1, Hard = 2
 ```
 
-**Quy tắc đã thống nhất và áp dụng xuyên suốt:**
+**Lưu ý về mặt thiết kế:**
 
-- Lưu ý:
-  - Các class xương sống của app phải đặt trong folder `Models/` để quản lý, còn về mặt thiết kế thì bạn phải tự thiết kế class theo phần mềm của bạn.
-  - Các class phía trên chỉ là xương sống của phần mềm hệ thống trắc nghiệm ! Nếu bạn cũng muốn làm thì đây là nơi tuyệt nhất để bạn kham khảo.
+- Các class xương sống của app phải đặt trong folder `Models/` để quản lý, còn về mặt thiết kế thì bạn phải tự thiết kế class theo phần mềm của bạn.
+- Các class phía trên chỉ là xương sống của phần mềm hệ thống trắc nghiệm ! Nếu bạn cũng muốn làm thì đây là nơi tuyệt nhất để bạn kham khảo.
 
   **Quy tắc đã thống nhất và áp dụng xuyên suốt:**
 
