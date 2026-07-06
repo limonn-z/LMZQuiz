@@ -123,6 +123,8 @@ User     1 --- * ExamResult
   Server=.\SQLEXPRESS;Database=*****;Trusted_Connection=True;TrustServerCertificate=True;
   ```
 
+  - 'Databate' bạn sẽ tự đặt để lưu trữ dữ liệu của bạn
+
 **Việc cần làm trong giai đoạn này:**
 
 - [ ] Tạo `QuizSystem.Data/AppDbContext.cs` — kế thừa `DbContext`, khai báo 7 `DbSet<>`
