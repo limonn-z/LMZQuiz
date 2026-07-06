@@ -31,6 +31,9 @@
   - `QuizSystem.Data` (Class Library)
   - `QuizSystem.Business` (Class Library)
   - `QuizSystem.WPF` (WPF App)
+- Lưu ý:
+  - Bạn được đặt tên solution cho riêng phần mềm bạn, `LMZQuiz.slnx` chỉ là tên kham khảo.
+  - Gợi ý: hãy nhất quán khi đặt tên (vd: solution app là `ABC.slnx`, thì các 4 tầng còn lại, đặt là `ABC.Core`, ...)
 
 **NuGet package đã cài sẵn:**
 
