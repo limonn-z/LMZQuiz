@@ -15,5 +15,9 @@ namespace QuizSystem.Core.Models.Junctions
         public int Id { get; set; }
         public int ExamId { get; set; }
         public int QuestionId { get; set; }
+
+        // Navigation property
+        public Exam Exam { get; set; } = null!; // Một dòng câu hỏi thuộc về một đề thi
+        public Question Question { get; set; } = null!; // Một dòng câu hỏi thuộc về một câu hỏi
     }
 }

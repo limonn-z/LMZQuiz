@@ -160,27 +160,6 @@ LMZQuiz/                             ← Repo GitHub
 │
 └── docs/                            # Tài liệu (sắp có)
 ```
-
-## Sơ đồ phân tầng giữa các entity:
-
-```
-Category
-   └── Question
-          └── Answer
-```
-
-## Relationships giữa các entity:
-
-```
-Category    1 --- *     Exam
-Category    1 --- *     Question
-Question    1 --- *     Answer
-Question    1 --- *     ExamQuestion
-Exam        1 --- *     ExamQuestion
-Exam        1 --- *     ExamResult
-User 	    1 --- *     ExamResult
-```
-
 ---
 
 ## 💻 Yêu Cầu Hệ Thống
@@ -242,7 +221,7 @@ Update-Database
 ## 🗺 Roadmap
 
 - [x] **Giai đoạn 0** — Chuẩn bị & Setup môi trường
-- [ ] **Giai đoạn 1** — Thiết kế Database & Models
+- [x] **Giai đoạn 1** — Thiết kế Database & Models & Model Relationships
 - [ ] **Giai đoạn 2** — Dựng khung project & EF Core
 - [ ] **Giai đoạn 3** — Quản lý ngân hàng câu hỏi
 - [ ] **Giai đoạn 4** — Tạo đề thi

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using QuizSystem.Core.Models.Junctions;
 
 namespace QuizSystem.Core.Models
 {
@@ -17,5 +18,10 @@ namespace QuizSystem.Core.Models
         public string Description { get; set; } = string.Empty;
         public int TimeDuration { get; set; }
         public int CategoryId { get; set; }
+
+        // Navigation property
+        public Category Category { get; set; } = null!; // Một đề thi thuộc về một môn học
+        public List<ExamQuestion> ExamQuestions { get; set; } = new List<ExamQuestion>(); // Một đề thi có nhiều câu hỏi
+        public List<ExamResult> ExamResults { get; set; } = new List<ExamResult>(); // Một đề thi có nhiều kết quả thi
     }
 }

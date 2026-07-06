@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using QuizSystem.Core.Enums;
+using QuizSystem.Core.Models.Junctions;
 
 namespace QuizSystem.Core.Models
 {
@@ -18,5 +19,10 @@ namespace QuizSystem.Core.Models
         public QuestionType Type { get; set; }
         public DifficultyLevel Difficulty { get; set; }
         public int CategoryId { get; set; }
+
+        // Navigation properties 
+        public Category Category { get; set; } = null!; // Một câu hỏi chỉ thuộc về một môn học
+        public List<Answer> Answers { get; set; } = new List<Answer>(); // Một câu hỏi có thể có nhiều đáp án
+        public List<ExamQuestion> ExamQuestions { get; set; } = new List<ExamQuestion>(); // Một câu hỏi có thể xuất hiện trong nhiều câu hỏi của nhiều đề thi khác nhau
     }
 }

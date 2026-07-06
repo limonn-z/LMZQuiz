@@ -19,5 +19,8 @@ namespace QuizSystem.Core.Models
         public string PasswordHash { get; set; } = string.Empty; // mật khẩu đã được băm
         public DateTime DateOfBirth { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        // Navigation properties
+        public List<ExamResult> ExamResults { get; set; } = new List<ExamResult>(); // Một người dùng có thể có nhiều kết quả thi
     }
 }

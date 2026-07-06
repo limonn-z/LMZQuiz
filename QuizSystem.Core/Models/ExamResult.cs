@@ -20,5 +20,9 @@ namespace QuizSystem.Core.Models
         public DateTime SubmittedAt { get; set; }
         public int UserId { get; set; }
         public int ExamId { get; set; }
+
+        // Navigation properties
+        public Exam Exam { get; set; } = null!; // Một kết quả thi thuộc về một đề thi
+        public User User { get; set; } = null!; // Một kết quả thi thuộc về một người dùng
     }
 }
