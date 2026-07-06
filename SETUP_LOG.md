@@ -26,7 +26,7 @@
 
 - Visual Studio 2022
 - .NET SDK — dự án thực tế đang chạy **net10.0** (README ghi .NET 8 ban đầu, đã nâng cấp)
-- Solution `LMZQuiz.slnx` gồm 4 project:
+- Cài Solution `LMZQuiz.slnx` và trong đó tạo 4 project như sau:
   - `QuizSystem.Core` (Class Library)
   - `QuizSystem.Data` (Class Library)
   - `QuizSystem.Business` (Class Library)
@@ -35,10 +35,20 @@
   - Bạn được đặt tên solution cho riêng phần mềm bạn, `LMZQuiz.slnx` chỉ là tên kham khảo.
   - Gợi ý: hãy nhất quán khi đặt tên (vd: solution app là `ABC.slnx`, thì các 4 tầng còn lại, đặt là `ABC.Core`, ...)
 
-**NuGet package đã cài sẵn:**
+**Cài nuget package:**
 
-- `QuizSystem.Data`: `Microsoft.EntityFrameworkCore.SqlServer`, `Microsoft.EntityFrameworkCore.Tools`
-- `QuizSystem.WPF`: `CommunityToolkit.Mvvm`
+- Mở solution của bạn lại và vào `Packet Manager Console`, bấm vào `Default Project` và làm như sau:
+  - Chọn `QuizSystem.Data` và cài package:
+
+  ```Microsoft.EntityFrameworkCore.SqlServer
+  Microsoft.EntityFrameworkCore.Tools
+  ```
+
+  - Chọn `QuizSystem.WPF`và cài package:
+
+  ```Microsoft.EntityFrameworkCore.SqlServer
+  CommunityToolkit.Mvvm
+  ```
 
 **Project Reference đã thiết lập (chiều phụ thuộc):**
 
