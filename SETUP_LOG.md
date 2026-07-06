@@ -108,9 +108,7 @@ Exam     1 --- * ExamResult
 User     1 --- * ExamResult
 ```
 
-**Kết quả:** Build solution thành công (4/4 project, 0 lỗi).
-
----
+## **Cuối cùng** Build solution (Ctrl + shift + B)
 
 ## ⏳ Giai đoạn 2 — Dựng khung project & EF Core _(đang làm)_
 
@@ -119,23 +117,48 @@ User     1 --- * ExamResult
 - Server Name: `.\SQLEXPRESS` hoặc tên server máy bạn
 - Authentication: Windows Authentication (Trusted Connection)
 - Connection string dự kiến:
+
   ```
   Server=.\SQLEXPRESS;Database=*****;Trusted_Connection=True;TrustServerCertificate=True;
   ```
 
   - 'Databate' bạn sẽ tự đặt để lưu trữ dữ liệu của bạn
 
-**Việc cần làm trong giai đoạn này:**
+**Việc làm trong giai đoạn này (khuyến nghị dùng A.I sẽ tối ưu hóa hơn):**
 
-- [ ] Tạo `QuizSystem.Data/AppDbContext.cs` — kế thừa `DbContext`, khai báo 7 `DbSet<>`
-- [ ] Thiết lập nơi lưu connection string (ví dụ `appsettings.json` trong `QuizSystem.WPF`)
-- [ ] Cài `Add-Migration InitialCreate` (sinh migration đầu tiên)
-- [ ] Chạy `Update-Database` (tạo database + 7 bảng thật trong SQL Server)
-- [ ] Mở SSMS kiểm tra lại 7 bảng đã tạo đúng như thiết kế Giai đoạn 1
+- [x] Tạo `QuizSystem.Data/AppDbContext.cs` — kế thừa `DbContext`, khai báo n `DbSet<T>` có trong `QuizSystem.Core` ('T' ở đây là các class xương sống khi thiết kế)
+- [x] Tạo `QuizSystem.WPF/appsettings.json` — chứa connection string (đặt "Copy to Output Directory" thành "Copy if newer" trong mục property)
+- [x] Cài thêm NuGet vào `QuizSystem.WPF: Microsoft.Extensions.Hosting`, `Microsoft.Extensions.Configuration.Json`
+- [x] Thiết lập nơi lưu connection string (ví dụ `appsettings.json` trong `QuizSystem.WPF`)
+- [x] Cấu hình Dependency Injection trong `App.xaml.cs` (tạo `AppHost`, đăng ký `AppDbContext` với connection string đọc từ `appsettings.json`)
+- [x] Mở "Package manager console", mục "default project" chọn `QuizSystem.Data`:
+  - [x] Cài `Add-Migration InitialCreate` (sinh migration đầu tiên do EF core quản lý)
+    - Cần cài thêm NuGet `Microsoft.EntityFrameworkCore.Design` vào `QuizSystem.WPF` (Startup Project) — Nếu thiếu nó thì `Add-Migration` báo lỗi ngay, không chạy được
+  - [x] Chạy `Update-Database` (tạo database + class bảng thật trong SQL Server)
+    - Nếu chạy thất bại với lỗi **"may cause cycles or multiple cascade paths"** — nghĩa là 1 bảng trung gian có 2 khóa ngoại, mà cả 2 đều dẫn ngược về chung 1 bảng tổ tiên (ví dụ `ExamQuestion` có `ExamId` và `QuestionId`, cả 2 cùng dẫn về `Category`). SQL Server không cho phép cả 2 đường cùng tự xóa theo (cascade).
 
-**NuGet package cần cài thêm (nếu chưa có), sẽ xác nhận khi tới bước dùng đến:**
+    ```
+    ExamQuestion ← Exam ← Category
+    ExamQuestion ← Question ← Category
+    ```
 
-- Có thể cần `Microsoft.Extensions.Configuration.Json` (đọc file `appsettings.json`) — chưa xác nhận, sẽ cập nhật khi tới bước đó.
+    - Cách sửa: trong `AppDbContext.cs`, thêm đoạn sau — chỉ cần đổi tên cho khớp bảng/cột thật của bạn:
+
+```csharp
+      protected override void OnModelCreating(ModelBuilder modelBuilder)
+      {
+          modelBuilder.Entity<ExamQuestion>()
+              .HasOne(eq => eq.Question)
+              .WithMany(q => q.ExamQuestions)
+              .HasForeignKey(eq => eq.QuestionId)
+              .OnDelete(DeleteBehavior.Restrict);
+      }
+```
+
+      *(Chỉ cần chặn 1 trong 2 đường — không quan trọng chọn đường nào.)*
+    - Sau khi thêm, trong "package manager console" → chọn `Data`, chạy lại theo thứ tự: `Remove-Migration` → `Add-Migration InitialCreate` → `Update-Database`
+
+- [x] Mở SSMS kiểm tra lại các bảng đã tạo đúng như thiết kế Giai đoạn 1 chưa.
 
 ---
 
