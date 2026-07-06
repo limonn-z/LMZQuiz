@@ -40,13 +40,15 @@
 - Mở solution của bạn lại và vào `Packet Manager Console`, bấm vào `Default Project` và làm như sau:
   - Chọn `QuizSystem.Data` và cài package:
 
-  ```Microsoft.EntityFrameworkCore.SqlServer,
+  ```
+  Microsoft.EntityFrameworkCore.SqlServer
   Microsoft.EntityFrameworkCore.Tools
   ```
 
   - Chọn `QuizSystem.WPF`và cài package:
 
-  ```Microsoft.EntityFrameworkCore.SqlServer,
+  ```
+  Microsoft.EntityFrameworkCore.SqlServer
   CommunityToolkit.Mvvm
   ```
 
