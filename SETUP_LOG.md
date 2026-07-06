@@ -110,7 +110,7 @@ User     1 --- * ExamResult
 
 ## **Cuối cùng** Build solution (Ctrl + shift + B)
 
-## ⏳ Giai đoạn 2 — Dựng khung project & EF Core _(đang làm)_
+## ⏳ Giai đoạn 2 — Dựng khung project & EF Core (Quan trọng)
 
 **Thông tin SQL Server đã xác nhận:**
 
@@ -143,6 +143,13 @@ User     1 --- * ExamResult
           V                 V
     ExamQuestion ← Exam ← Category
     ExamQuestion ← Question ← Category
+    ```
+
+  - Quy tắc tổng quát tìm bảng tổ tiên trùng nhau:
+
+    ```
+    Với 2 khóa ngoại của bảng trung gian bị xung đột, mỗi khóa ngoại truy ngược liên tục (theo hướng "khóa ngoại → bảng cha → khóa ngoại của bảng cha đó → ...") cho tới khi hết đường đi (gặp bảng không còn khóa ngoại). Nếu 2 đường truy ngược đó gặp lại cùng 1 bảng bất kỳ (không nhất thiết phải là bảng gốc cuối cùng, chỉ cần trùng 1 điểm) → có xung đột, cần chặn Restrict ở 1 trong 2.
+
     ```
 
   - Cách sửa: trong `AppDbContext.cs`, thêm đoạn sau — chỉ cần đổi tên cho khớp bảng/cột thật của bạn:
