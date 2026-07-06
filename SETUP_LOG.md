@@ -148,20 +148,60 @@ User     1 --- * ExamResult
   - Cách sửa: trong `AppDbContext.cs`, thêm đoạn sau — chỉ cần đổi tên cho khớp bảng/cột thật của bạn:
 
   ```csharp
+        // (2 khóa ngoại không cùng dẫn về 1 tổ tiên chung) thì không cần thêm code này
+        // Nếu có thì thêm đúng khung code này, và đổi 4 chỗ theo hướng dẫn dưới đây:
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ExamQuestion>()
-                .HasOne(eq => eq.Question)
-                .WithMany(q => q.ExamQuestions)
-                .HasForeignKey(eq => eq.QuestionId)
+            modelBuilder.Entity<T>()                    // Chỗ 1: <T>
+                .HasOne(x => x.TBangMuonChan)           // Chỗ 2: TBangMuonChan
+                .WithMany(y => y.TBangTrungGianList)    // Chỗ 3: TBangTrungGianList
+                .HasForeignKey(x => x.TBangMuonChanId)  // Chỗ 4: TBangMuonChanId
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
-        // Nếu không đụng độ thì không cần thêm code này
-        // Nếu có thì
   ```
 
-  - Sau khi thêm, trong "package manager console" → chọn `Data`, chạy lại theo thứ tự: `Remove-Migration` → `Add-Migration InitialCreate` → `Update-Database` xem còn lỗi không.
+  - Ví dụ dễ hiểu, trước tiên đây là bảng trung gian đang bị lỗi (`ExamQuestion.cs`), các dòng liên quan được đánh dấu:
+
+  ```csharp
+          public class ExamQuestion
+          {
+              public int Id { get; set; }
+              public int ExamId { get; set; }
+              public int QuestionId { get; set; }          // ← sẽ dùng ở Chỗ 4 (khóa ngoại)
+
+              public Exam Exam { get; set; } = null!;
+              public Question Question { get; set; } = null!;   // ← sẽ dùng ở Chỗ 2 (navigation 1-object)
+          }
+  ```
+
+  - Và bên `Question.cs` có sẵn dòng này:
+
+  ```csharp
+          public List ExamQuestions { get; set; } = new List();  // ← sẽ dùng ở Chỗ 3 (navigation List<>)
+  ```
+
+  - Kết quả:
+
+  ```csharp
+          /*
+          _ Ta nhận thấy ở trên có 2 khóa ngoại là ExamId và QuestionId, nếu chọn QuestionId thì tương ứng sẽ là Question như trên.
+          _ Sau đó sẽ qua Question.cs để dùng đúng có sẵn dòng navigation properties <List>
+          _ Từ đấy sẽ phá vỡ xung đột giữa Exam và Question
+          */
+
+          protected override void OnModelCreating(ModelBuilder modelBuilder)
+          {
+              modelBuilder.Entity<ExamQuestion>()
+                  .HasOne(eq => eq.Question)
+                  .WithMany(q => q.ExamQuestions)
+                  .HasForeignKey(eq => eq.QuestionId)
+                  .OnDelete(DeleteBehavior.Restrict);
+          }
+  ```
+
+- Sau khi thêm, trong "package manager console" → chọn `Data`, chạy lại theo thứ tự: `Remove-Migration` → `Add-Migration InitialCreate` → `Update-Database` xem còn lỗi không.
 
 - [x] Mở SSMS kiểm tra lại các bảng đã tạo đúng như thiết kế Giai đoạn 1 chưa.
 
