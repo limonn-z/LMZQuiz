@@ -132,31 +132,36 @@ User     1 --- * ExamResult
 - [x] Thiết lập nơi lưu connection string (ví dụ `appsettings.json` trong `QuizSystem.WPF`)
 - [x] Cấu hình Dependency Injection trong `App.xaml.cs` (tạo `AppHost`, đăng ký `AppDbContext` với connection string đọc từ `appsettings.json`)
 - [x] Mở "Package manager console", mục "default project" chọn `QuizSystem.Data`:
-  - [x] Cài `Add-Migration InitialCreate` (sinh migration đầu tiên do EF core quản lý)
-    - Cần cài thêm NuGet `Microsoft.EntityFrameworkCore.Design` vào `QuizSystem.WPF` (Startup Project) — Nếu thiếu nó thì `Add-Migration` báo lỗi ngay, không chạy được
-  - [x] Chạy `Update-Database` (tạo database + class bảng thật trong SQL Server)
+  - Cài `Add-Migration InitialCreate` (sinh migration đầu tiên do EF core quản lý)
+  - Cần cài thêm NuGet `Microsoft.EntityFrameworkCore.Design` vào `QuizSystem.WPF` (Startup Project) — Nếu thiếu nó thì `Add-Migration` báo lỗi ngay, không chạy được
+  - Chạy `Update-Database` (tạo database + class bảng thật trong SQL Server)
     - Nếu chạy thất bại với lỗi **"may cause cycles or multiple cascade paths"** — nghĩa là 1 bảng trung gian có 2 khóa ngoại, mà cả 2 đều dẫn ngược về chung 1 bảng tổ tiên (ví dụ `ExamQuestion` có `ExamId` và `QuestionId`, cả 2 cùng dẫn về `Category`). SQL Server không cho phép cả 2 đường cùng tự xóa theo (cascade).
 
     ```
+    Bảng trung gian     Bảng tổ tiên
+          |                 |
+          V                 V
     ExamQuestion ← Exam ← Category
     ExamQuestion ← Question ← Category
     ```
 
-    - Cách sửa: trong `AppDbContext.cs`, thêm đoạn sau — chỉ cần đổi tên cho khớp bảng/cột thật của bạn:
+  - Cách sửa: trong `AppDbContext.cs`, thêm đoạn sau — chỉ cần đổi tên cho khớp bảng/cột thật của bạn:
 
-```csharp
-      protected override void OnModelCreating(ModelBuilder modelBuilder)
-      {
-          modelBuilder.Entity<ExamQuestion>()
-              .HasOne(eq => eq.Question)
-              .WithMany(q => q.ExamQuestions)
-              .HasForeignKey(eq => eq.QuestionId)
-              .OnDelete(DeleteBehavior.Restrict);
-      }
-```
+  ```csharp
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ExamQuestion>()
+                .HasOne(eq => eq.Question)
+                .WithMany(q => q.ExamQuestions)
+                .HasForeignKey(eq => eq.QuestionId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
 
-      *(Chỉ cần chặn 1 trong 2 đường — không quan trọng chọn đường nào.)*
-    - Sau khi thêm, trong "package manager console" → chọn `Data`, chạy lại theo thứ tự: `Remove-Migration` → `Add-Migration InitialCreate` → `Update-Database`
+        // Nếu không đụng độ thì không cần thêm code này
+        // Nếu có thì
+  ```
+
+  - Sau khi thêm, trong "package manager console" → chọn `Data`, chạy lại theo thứ tự: `Remove-Migration` → `Add-Migration InitialCreate` → `Update-Database` xem còn lỗi không.
 
 - [x] Mở SSMS kiểm tra lại các bảng đã tạo đúng như thiết kế Giai đoạn 1 chưa.
 
