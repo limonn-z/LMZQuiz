@@ -148,7 +148,11 @@ User     1 --- * ExamResult
   - Quy tắc tổng quát tìm bảng tổ tiên trùng nhau:
 
     ```
-    Với 2 khóa ngoại của bảng trung gian bị xung đột, mỗi khóa ngoại truy ngược liên tục (theo hướng "khóa ngoại → bảng cha → khóa ngoại của bảng cha đó → ...") cho tới khi hết đường đi (gặp bảng không còn khóa ngoại). Nếu 2 đường truy ngược đó gặp lại cùng 1 bảng bất kỳ (không nhất thiết phải là bảng gốc cuối cùng, chỉ cần trùng 1 điểm) → có xung đột, cần chặn Restrict ở 1 trong 2.
+    _ Với 2 khóa ngoại của bảng trung gian bị xung đột, mỗi khóa ngoại truy ngược liên tục (theo hướng
+    "khóa ngoại → bảng cha → khóa ngoại của bảng cha đó → ...") cho tới khi hết đường đi (gặp bảng không
+    còn khóa ngoại).
+    Nếu 2 đường truy ngược đó gặp lại cùng 1 bảng bất kỳ (không nhất thiết phải là bảng gốc cuối cùng,
+    chỉ cần trùng 1 điểm) → có xung đột, cần chặn Restrict ở 1 trong 2.
 
     ```
 
