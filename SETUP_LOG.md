@@ -188,7 +188,7 @@ User     1 --- * ExamResult
           /*
           _ Ta nhận thấy ở trên có 2 khóa ngoại là ExamId và QuestionId, nếu chọn QuestionId thì tương ứng sẽ là Question như trên.
           _ Sau đó sẽ qua Question.cs để dùng đúng có sẵn dòng navigation properties <List>
-          _ Từ đấy sẽ phá vỡ xung đột giữa Exam và Question
+          _ Áp dụng như code dưới đây thì sẽ phá vỡ xung đột giữa Exam và Question
           */
 
           protected override void OnModelCreating(ModelBuilder modelBuilder)
