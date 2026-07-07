@@ -9,7 +9,7 @@
 
 - [x] **Giai đoạn 0** — Chuẩn bị & Setup môi trường
 - [x] **Giai đoạn 1** — Thiết kế Database & Models
-- [ ] **Giai đoạn 2** — Dựng khung project & EF Core _(đang làm)_
+- [x] **Giai đoạn 2** — Dựng khung project & EF Core
 - [ ] **Giai đoạn 3** — Quản lý ngân hàng câu hỏi
 - [ ] **Giai đoạn 4** — Tạo đề thi
 - [ ] **Giai đoạn 5** — Giao diện làm bài
