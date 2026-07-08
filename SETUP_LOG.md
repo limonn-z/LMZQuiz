@@ -255,13 +255,13 @@ public interface I{Tên_bảng}Repository
 - Ví dụ:
 
   ```csharp
-  public interface I{Tên_bảng}Repository
+  public interface IAnswerRepository
   {
-    // Kiểu 1: Tác vụ không trả về (giống void)
-    Task {Tên_hàm}Async();
+    // Xóa đáp án bằng id của câu đó
+    Task RemoveAnswerAsync(int id);
 
-    // Kiểu 2: Tác vụ trả về và có tham số
-    Task<Kiểu_trả_về> {Tên_hàm}Async(Tham_số);
+    // Thêm đáp án mới và trả về object đã có Id
+    Task<Answer> AddAnswerAsync(Answer newAnswer);
   }
   ```
 
