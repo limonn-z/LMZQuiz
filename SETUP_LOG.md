@@ -233,24 +233,37 @@ User     1 --- * ExamResult
 
 Tạo `QuizSystem.Core/Repositories/`, mỗi bảng trong `Model` là 1 file interface.
 
-- Nhiệm vụ của nó là: làm "tờ giấy hợp đồng" - quy định Repository (tầng `Data`) phải có khả năng làm được gì (vd: Thêm, sửa, xóa, lấy 1, lấy tất cả, ...), nhưng không viết code thật bên trong. Business chỉ cần biết tới interface này để gọi, nên tầng `Data` dù có thay đổi công nghệ như nào vẫn không ảnh hưởng gì.
+- Nhiệm vụ của nó là: làm "tờ giấy hợp đồng" - quy định Repository (tầng `Data`) phải có khả năng làm được gì (vd: Thêm, sửa, xóa, lấy 1, lấy tất cả, ...), nhưng không viết code thật bên trong. Business chỉ cần biết tới interface này để gọi, nên tầng `Data` dù có thay đổi code hoặc sử dụng tool khác như nào vẫn không ảnh hưởng gì.
 
 - Lưu ý:
-  - Nếu là bảng trung gian `Junction` (ví dụ: `ExamQuestion`) thì ko làm interface riêng.
+  - Nếu là bảng trung gian `Junction` (ví dụ: `ExamQuestion`) thì ko làm interface riêng (để hiểu rõ hơn thì bạn nên tìm hiểu).
   - `Model` có bao nhiêu bảng thì làm bấy nhiêu Interface.
 
-    **Khuôn mẫu áp dụng cho cả 6 file (chỉ đổi tên Model cho khớp):**
+**Khuôn mẫu áp dụng (chỉ đổi tên Model cho khớp):**
 
 ```csharp
-public interface I{Ten}Repository
+public interface I{Tên_bảng}Repository
 {
-    Task<{Ten}> Add{Ten}Async({Ten} new{Ten});      // Trả về object — để lấy Id mới sinh ra (IDENTITY)
-    Task Edit{Ten}Async({Ten} updated{Ten});         // KHÔNG trả về — Id đã có sẵn từ trước khi Edit
-    Task Remove{Ten}ByIdAsync(int id);               // Chỉ cần Id để định vị dòng cần xóa
-    Task<{Ten}> Get{Ten}ByIdAsync(int id);
-    Task<List<{Ten}>> GetAll{Ten}sAsync();           // Chú ý số nhiều tiếng Anh bất quy tắc (Category → Categories)
+  // Kiểu 1: Tác vụ không trả về (giống void)
+  Task {Tên_hàm}Async();
+
+  // Kiểu 2: Tác vụ trả về và có tham số
+  Task<Kiểu_trả_về> {Tên_hàm}Async(Tham_số);
 }
 ```
+
+- Ví dụ:
+
+  ```csharp
+  public interface I{Tên_bảng}Repository
+  {
+    // Kiểu 1: Tác vụ không trả về (giống void)
+    Task {Tên_hàm}Async();
+
+    // Kiểu 2: Tác vụ trả về và có tham số
+    Task<Kiểu_trả_về> {Tên_hàm}Async(Tham_số);
+  }
+  ```
 
 ---
 
