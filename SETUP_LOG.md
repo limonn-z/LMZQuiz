@@ -218,4 +218,40 @@ User     1 --- * ExamResult
 
 ---
 
-_(Các giai đoạn 3 → 9 sẽ được bổ sung chi tiết khi thực hiện tới, theo đúng cấu trúc mục ở trên.)_
+## ⏳ Giai đoạn 3 — Quản lý ngân hàng câu hỏi _(đang làm)_
+
+**Được chia theo 4 bước, đi từ trong ra ngoài (đúng chiều kiến trúc):**
+
+| Bước | Tầng       | Việc làm                                         |
+| ---- | ---------- | ------------------------------------------------ |
+| 3.1  | `Core`     | Viết Interface cho Repository                    |
+| 3.2  | `Data`     | Viết Repository (code thật, dùng `AppDbContext`) |
+| 3.3  | `Business` | Viết Service (luật nghiệp vụ)                    |
+| 3.4  | `WPF`      | Viết ViewModel + View (giao diện thật)           |
+
+### ✅ Bước 3.1 — Interface (đã xong)
+
+Tạo `QuizSystem.Core/Repositories/`, mỗi bảng trong `Model` là 1 file interface.
+
+- Nhiệm vụ của nó là: làm "tờ giấy hợp đồng" - quy định Repository (tầng `Data`) phải có khả năng làm được gì (vd: Thêm, sửa, xóa, lấy 1, lấy tất cả, ...), nhưng không viết code thật bên trong. Business chỉ cần biết tới interface này để gọi, nên tầng `Data` dù có thay đổi công nghệ như nào vẫn không ảnh hưởng gì.
+
+- Lưu ý:
+  - Nếu là bảng trung gian `Junction` (ví dụ: `ExamQuestion`) thì ko làm interface riêng.
+  - `Model` có bao nhiêu bảng thì làm bấy nhiêu Interface.
+
+    **Khuôn mẫu áp dụng cho cả 6 file (chỉ đổi tên Model cho khớp):**
+
+```csharp
+public interface I{Ten}Repository
+{
+    Task<{Ten}> Add{Ten}Async({Ten} new{Ten});      // Trả về object — để lấy Id mới sinh ra (IDENTITY)
+    Task Edit{Ten}Async({Ten} updated{Ten});         // KHÔNG trả về — Id đã có sẵn từ trước khi Edit
+    Task Remove{Ten}ByIdAsync(int id);               // Chỉ cần Id để định vị dòng cần xóa
+    Task<{Ten}> Get{Ten}ByIdAsync(int id);
+    Task<List<{Ten}>> GetAll{Ten}sAsync();           // Chú ý số nhiều tiếng Anh bất quy tắc (Category → Categories)
+}
+```
+
+---
+
+_(Các giai đoạn 4 → 9 sẽ được bổ sung chi tiết khi thực hiện tới, theo đúng cấu trúc mục ở trên.)_
