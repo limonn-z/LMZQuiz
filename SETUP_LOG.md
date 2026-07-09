@@ -222,14 +222,14 @@ User     1 --- * ExamResult
 
 **Được chia theo 4 bước, đi từ trong ra ngoài (đúng chiều kiến trúc):**
 
-| Bước | Tầng       | Việc làm                                         |
-| ---- | ---------- | ------------------------------------------------ |
-| 3.1  | `Core`     | Viết Interface cho Repository                    |
-| 3.2  | `Data`     | Viết Repository (code thật, dùng `AppDbContext`) |
-| 3.3  | `Business` | Viết Service (luật nghiệp vụ)                    |
-| 3.4  | `WPF`      | Viết ViewModel + View (giao diện thật)           |
+| Bước | Tầng       | Ví như        | Việc làm                                         |
+| ---- | ---------- | ------------- | ------------------------------------------------ |
+| 3.1  | `Core`     | Giấy hợp đồng | Viết Interface cho Repository                    |
+| 3.2  | `Data`     | Ký hợp đồng   | Viết Repository (code thật, dùng `AppDbContext`) |
+| 3.3  | `Business` |               | Viết Service (luật nghiệp vụ)                    |
+| 3.4  | `WPF`      |               | Viết ViewModel + View (giao diện thật)           |
 
-### ✅ Bước 3.1 — Interface (đã xong)
+### Bước 3.1 — Interface
 
 Tạo `QuizSystem.Core/Repositories/`, mỗi bảng trong `Model` là 1 file interface.
 
