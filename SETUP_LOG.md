@@ -265,6 +265,104 @@ public interface I{Tên_bảng}Repository
   }
   ```
 
+### Bước 3.2 — Repository
+
+Tạo `QuizSystem.Data/Repositories/`, mỗi file "ký hợp đồng" đúng interface tương ứng ở `bước 3.1`:
+
+- Ví dụ kham khảo:
+  - Ở `QuizSystem.Core/Repositories/ICategoryRepository.cs`:
+
+  ```csharp
+  using QuizSystem.Core.Models;
+
+  namespace QuizSystem.Core.Repositories
+  {
+      public interface ICategoryRepository
+      {
+          Task<Category> AddCategoryAsync(Category newCategory);       // Thêm môn mới
+          Task EditCategoryAsync(Category updatedCategory);            // Chỉnh sửa môn
+          Task RemoveCategoryByIdAsync(int id);                        // Xóa môn bằng id
+          Task<Category> GetCategoryByIdAsync(int id);                 // Lấy môn theo Id
+          Task<List<Category>> GetAllCategoriesAsync();                // Lấy tất cả môn
+      }
+  }
+
+  ```
+
+  - Tạo ``QuizSystem.Core/Repositories/ICategoryRepository.cs`:
+
+  ```csharp
+    using Microsoft.EntityFrameworkCore;
+    using QuizSystem.Core.Models;
+    using QuizSystem.Core.Repositories;
+
+    namespace QuizSystem.Data.Repositories
+    {
+        public class CategoryRepository : ICategoryRepository
+        {
+            // Biến tạo 1 lần duy nhất, cất vào _context, rồi các hàm khác dùng lại
+            private readonly AppDbContext _context;
+
+            // Hàm khởi tạo nhận vào một đối tượng AppDbContext để tương tác với cơ sở dữ liệu.
+            public CategoryRepository(AppDbContext context)
+            {
+                _context = context;
+            }
+
+            // Hoàn thiện phần định nghĩa của các phương thức trong ICategoryRepository
+            public async Task<Category> AddCategoryAsync(Category newCategory)
+            {
+                await _context.Categories.AddAsync(newCategory);
+                await _context.SaveChangesAsync();
+                return newCategory;
+            }
+
+            public async Task EditCategoryAsync(Category updaterCategory)
+            {
+                var categoryObj = await _context.Categories.FindAsync(updaterCategory.Id);
+                if (categoryObj == null)
+                {
+                    throw new Exception($"Category with ID {updaterCategory.Id} not found for editing!");
+                }
+                categoryObj.Name = updaterCategory.Name;
+                categoryObj.Description = updaterCategory.Description;
+                await _context.SaveChangesAsync();
+            }
+
+            public async Task RemoveCategoryByIdAsync(int categoryId)
+            {
+                var categoryObj = await _context.Categories.FindAsync(categoryId);
+                if (categoryObj == null)
+                {
+                    throw new Exception($"Category with ID {categoryId} not found for removing!");
+                }
+                _context.Categories.Remove(categoryObj);
+                await _context.SaveChangesAsync();
+            }
+
+            public async Task<List<Category>> GetAllCategoriesAsync()
+            {
+                IQueryable<Category> query = _context.Categories;
+                List<Category> list = await query.ToListAsync();
+                return list;
+            }
+
+            public async Task<Category> GetCategoryByIdAsync(int categoryId)
+            {
+                var categoryObj = await _context.Categories.FindAsync(categoryId);
+                if (categoryObj == null) throw new Exception($"Category with ID {categoryId} not found for getting!");
+                return categoryObj;
+            }
+        }
+    }
+
+  ```
+
+  - Ghi nhớ:
+    - 1 interface có bao nhiêu tác vụ thì repository kí với nó phải thực hiện bấy nhiêu. Nếu không sẽ bị lỗi!
+    - Vì giao tiếp và làm việc với database `SQL Server` nên tác vụ cần phải có thời gian để truy vấn và phản hồi. Vì vậy, `async + Task` luôn luôn đi đôi.
+    - Tất cả những hàm như là `Add(), Remove(), ..` chỉ là đánh dấu và chưa tác động đến database. Nên muốn lưu lên database phải dùng lệnh `await _context.SaveChangesAsync();`, trong đó `await` là đợi chờ.
+
 ---
 
 _(Các giai đoạn 4 → 9 sẽ được bổ sung chi tiết khi thực hiện tới, theo đúng cấu trúc mục ở trên.)_
