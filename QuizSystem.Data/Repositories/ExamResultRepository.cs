@@ -48,13 +48,9 @@ namespace QuizSystem.Data.Repositories
             List<ExamResult> list = await query.ToListAsync();
             return list;
         }
-        public async Task<ExamResult> GetExamResultByIdAsync(int examResultId)
+        public async Task<ExamResult?> GetExamResultByIdAsync(int examResultId)
         {
             var examResultObj = await _context.ExamResults.FindAsync(examResultId);
-            if (examResultObj == null)
-            {
-                throw new Exception($"Exam Result with ID {examResultId} not found!");
-            }
             return examResultObj;
         }
     }

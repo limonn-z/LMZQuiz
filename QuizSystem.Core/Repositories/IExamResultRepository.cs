@@ -7,7 +7,7 @@ namespace QuizSystem.Core.Repositories
         Task<ExamResult> AddExamResultAsync(ExamResult newExamResult);
         Task EditExamResultAsync(ExamResult updatedExamResult);
         Task RemoveExamResultByIdAsync(int id);
-        Task<ExamResult> GetExamResultByIdAsync(int id);
+        Task<ExamResult?> GetExamResultByIdAsync(int id);
         Task<List<ExamResult>> GetAllExamResultsAsync();
     }
 }

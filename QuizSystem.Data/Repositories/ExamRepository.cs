@@ -54,10 +54,9 @@ namespace QuizSystem.Data.Repositories
             return list;
         }
 
-        public async Task<Exam> GetExamByIdAsync(int examId)
+        public async Task<Exam?> GetExamByIdAsync(int examId)
         {
             var examObj = await _context.Exams.FindAsync(examId);
-            if (examObj == null) throw new Exception($"Exam with ID {examId} not found for getting!");
             return examObj;
         }
     }

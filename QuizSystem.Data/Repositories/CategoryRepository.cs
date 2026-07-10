@@ -53,10 +53,9 @@ namespace QuizSystem.Data.Repositories
             return list;
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int categoryId)
+        public async Task<Category?> GetCategoryByIdAsync(int categoryId)
         {
             var categoryObj = await _context.Categories.FindAsync(categoryId);
-            if (categoryObj == null) throw new Exception($"Category with ID {categoryId} not found for getting!");
             return categoryObj;
         }
     }

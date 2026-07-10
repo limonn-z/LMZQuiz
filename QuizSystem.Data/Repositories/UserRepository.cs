@@ -55,10 +55,9 @@ namespace QuizSystem.Data.Repositories
             return list;
         }
 
-        public async Task<User> GetUserByIdAsync(int userId)
+        public async Task<User?> GetUserByIdAsync(int userId)
         {
             var userObj = await _context.Users.FindAsync(userId);
-            if (userObj == null) throw new Exception($"User with ID {userId} not found for getting!");
             return userObj;
         }
     }

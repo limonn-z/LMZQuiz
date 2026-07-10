@@ -10,7 +10,7 @@ namespace QuizSystem.Core.Repositories
         Task<Answer> AddAnswerAsync(Answer newAnswer);
         Task EditAnswerAsync(Answer updatedAnswer);
         Task RemoveAnswerByIdAsync(int id);
-        Task <Answer> GetAnswerByIdAsync(int id);
+        Task <Answer?> GetAnswerByIdAsync(int id);
         Task<List<Answer>> GetAllAnswersAsync();
     }
 }

@@ -52,13 +52,9 @@ namespace QuizSystem.Data.Repositories
             return list;
         }
 
-        public async Task<Answer> GetAnswerByIdAsync(int answerId)
+        public async Task<Answer?> GetAnswerByIdAsync(int answerId)
         {
             var answerObj = await _context.Answers.FindAsync(answerId);
-            if (answerObj == null)
-            {
-                throw new Exception($"Answer with ID {answerId} not found!");
-            }
             return answerObj;
         }
     }
