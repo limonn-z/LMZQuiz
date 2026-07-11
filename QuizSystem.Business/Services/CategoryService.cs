@@ -6,14 +6,9 @@ using QuizSystem.Core.Models;
 
 namespace QuizSystem.Business.Services
 {
-    public class CategoryService
+    public class CategoryService (ICategoryRepository categoryRepository)
     {
-        private readonly ICategoryRepository _categoryRepository;
-
-        public CategoryService(ICategoryRepository categoryRepository)
-        {
-            _categoryRepository = categoryRepository;
-        }
+        private readonly ICategoryRepository _categoryRepository = categoryRepository;
 
         public async Task<Category> AddCategoryAsync(Category newCategory)
         {
@@ -27,15 +22,19 @@ namespace QuizSystem.Business.Services
             await _categoryRepository.EditCategoryAsync(updatedCategory);
         }
 
-        public async Task RemoveCategoryByIdAsync(int id)
+        public async Task RemoveCategoryAsync(Category category)
         {
-            await _categoryRepository.RemoveCategoryByIdAsync(id);
+            if (category == null) 
+                throw new ArgumentNullException(nameof(category), "Category cannot be null!");
+            await _categoryRepository.RemoveCategoryAsync(category);
         }
-
+        
         public async Task<Category> GetCategoryByIdAsync(int id)
         {
+            if (id <= 0) 
+                throw new ArgumentException("Id must be greater than 0!", nameof(id));
             var category = await _categoryRepository.GetCategoryByIdAsync(id);
-            return category ?? throw new KeyNotFoundException($"Category with ID {id} not found.");
+            return category ?? throw new KeyNotFoundException($"Category with ID {id} not found!");
         }
 
         public async Task<List<Category>> GetAllCategoriesAsync()
@@ -45,11 +44,10 @@ namespace QuizSystem.Business.Services
 
         private static void ValidateCategory(Category category)
         {
-            if (category == null)
-                throw new ArgumentNullException(nameof(category), "Category cannot be null.");
-
+            if (category == null) 
+                throw new ArgumentNullException(nameof(category), "Category cannot be null!");
             if (string.IsNullOrWhiteSpace(category.Name))
-                throw new ArgumentException("Category name cannot be empty.", nameof(category.Name));
+                throw new ArgumentException("Category name must not empty!",nameof(category));
         }
     }
 }

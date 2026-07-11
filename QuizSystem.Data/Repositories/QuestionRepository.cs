@@ -36,12 +36,12 @@ namespace QuizSystem.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveQuestionByIdAsync(int questionId)
+        public async Task RemoveQuestionAsync(Question question)
         {
-            var questionObj = await _context.Questions.FindAsync(questionId);
+            var questionObj = await _context.Questions.FindAsync(question.Id);
             if (questionObj == null)
             {
-                throw new Exception($"Question with ID {questionId} not found for removing!");
+                throw new Exception($"Question with ID {question.Id} not found for removing!");
             }
             _context.Questions.Remove(questionObj);
             await _context.SaveChangesAsync();

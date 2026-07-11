@@ -11,7 +11,7 @@ namespace QuizSystem.Core.Repositories
     {
         Task<Question> AddQuestionAsync(Question newQuestion);          // Thêm câu hỏi mới 
         Task EditQuestionAsync(Question updatedQuestion);               // Chỉnh sửa câu hỏi 
-        Task RemoveQuestionByIdAsync(int id);                           // Xóa câu hỏi bằng id 
+        Task RemoveQuestionAsync(Question question);                    // Xóa câu hỏi bằng id 
         Task<Question?> GetQuestionByIdAsync(int id);                    // Lấy câu hỏi theo Id
         Task<List<Question>> GetAllQuestionsAsync();                    // Lấy tất cả câu hỏi
     }

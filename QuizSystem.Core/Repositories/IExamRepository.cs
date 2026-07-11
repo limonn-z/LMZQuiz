@@ -9,7 +9,7 @@ namespace QuizSystem.Core.Repositories
     {
         Task<Exam> AddExamAsync(Exam newExam);
         Task EditExamAsync(Exam updatedExam);
-        Task RemoveExamByIdAsync(int id);
+        Task RemoveExamAsync(Exam exam);
         Task<Exam?> GetExamByIdAsync(int id);
         Task<List<Exam>> GetAllExamsAsync();
     }

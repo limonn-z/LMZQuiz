@@ -35,12 +35,12 @@ namespace QuizSystem.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveCategoryByIdAsync(int categoryId)
+        public async Task RemoveCategoryAsync(Category category)
         {
-            var categoryObj = await _context.Categories.FindAsync(categoryId);
+            var categoryObj = await _context.Categories.FindAsync(category.Id);
             if (categoryObj == null)
             {
-                throw new Exception($"Category with ID {categoryId} not found for removing!");
+                throw new Exception($"Category with ID {category.Id} not found for removing!");
             }
             _context.Categories.Remove(categoryObj);
             await _context.SaveChangesAsync();
