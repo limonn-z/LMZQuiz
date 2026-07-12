@@ -215,63 +215,63 @@ Viết `ViewModel` (gọi qua Service ở 4.3) và `View` (XAML) thật cho `Cat
 
 - Trước khi viết bất kỳ ViewModel nào, phải đăng ký DI cho Repository + Service trước — nếu không, ViewModel không có cách nào lấy được Service qua constructor.
 
-## Bước 1: Đăng kí DI
+  ### Bước 4.4.1: Đăng kí DI (_đang làm_)
 
-Vào `QuizSystem.WPF/app.xaml.cs theo khung như sau`:
+  Vào `QuizSystem.WPF/app.xaml.cs theo khung như sau`:
 
-```csharp
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using QuizSystem.Data;
-using System.Windows;
-using QuizSystem.Business.Services;
-using QuizSystem.Core.Repositories;
-using QuizSystem.Data.Repositories;
+  ```csharp
+  using Microsoft.EntityFrameworkCore;
+  using Microsoft.Extensions.Configuration;
+  using Microsoft.Extensions.DependencyInjection;
+  using Microsoft.Extensions.Hosting;
+  using QuizSystem.Data;
+  using System.Windows;
+  using QuizSystem.Business.Services;
+  using QuizSystem.Core.Repositories;
+  using QuizSystem.Data.Repositories;
 
-namespace QuizSystem.WPF
-{
-    public partial class App : Application
-    {
-        public static IHost AppHost { get; private set; } = null!;
+  namespace QuizSystem.WPF
+  {
+      public partial class App : Application
+      {
+          public static IHost AppHost { get; private set; } = null!;
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            AppHost = Host.CreateDefaultBuilder()
-                .ConfigureAppConfiguration(config =>
-                {
-                    config.AddJsonFile("appsettings.json", optional: false);
-                })
-                .ConfigureServices((context, services) =>
-                {
-                    var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
+          protected override void OnStartup(StartupEventArgs e)
+          {
+              AppHost = Host.CreateDefaultBuilder()
+                  .ConfigureAppConfiguration(config =>
+                  {
+                      config.AddJsonFile("appsettings.json", optional: false);
+                  })
+                  .ConfigureServices((context, services) =>
+                  {
+                      var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
 
-                    // Từ giờ, mỗi khi ai cần AppDbContext, tự động tạo với connection string này
-                    services.AddDbContext(options => options.UseSqlServer(connectionString));
+                      // Từ giờ, mỗi khi ai cần AppDbContext, tự động tạo với connection string này
+                      services.AddDbContext(options => options.UseSqlServer(connectionString));
 
-                    // Repository: đăng ký khớp Interface (Core) ↔ Class thật (Data)
-                    services.AddScoped();
-                    services.AddScoped();
-                    services.AddScoped();
-                    services.AddScoped();
+                      // Repository: đăng ký khớp Interface (Core) ↔ Class thật (Data)
+                      services.AddScoped();
+                      services.AddScoped();
+                      services.AddScoped();
+                      services.AddScoped();
 
-                    // Service: không có Interface, đăng ký thẳng class thật
-                    services.AddScoped();
-                    services.AddScoped();
-                    services.AddScoped();
-                    services.AddScoped();
-                })
-                .Build();
+                      // Service: không có Interface, đăng ký thẳng class thật
+                      services.AddScoped();
+                      services.AddScoped();
+                      services.AddScoped();
+                      services.AddScoped();
+                  })
+                  .Build();
 
-            base.OnStartup(e);
-        }
-    }
-}
+              base.OnStartup(e);
+          }
+      }
+  }
 
-```
+  ```
 
-- Ví dụ:
+  - Ví dụ:
 
   ```csharp
   protected override void OnStartup(StartupEventArgs e)
@@ -310,3 +310,11 @@ namespace QuizSystem.WPF
       base.OnStartup(e);
   }
   ```
+
+  ### Bước 4.4.2: Viết ViewModel cho từng màn hình
+
+  Viết ViewModel cho từng màn hình, theo đúng thứ tự đã làm ở 3.3 (từ đơn giản → phức tạp): CategoryViewModel → QuestionViewModel → AnswerViewModel (thường gộp chung màn với Question) → UserViewModel. Mỗi ViewModel chỉ gọi qua Service (đã xong ở 3.3), expose data + lệnh (Command) cho View dùng, không chứa luật nghiệp vụ (luật đã nằm hết bên Service rồi).
+
+  ### Bước 4.4.3: Viết View (XAML) khớp với từng ViewModel
+
+  Viết View (XAML) khớp với từng ViewModel — giao diện thật để nhập/xem/sửa/xóa dữ liệu.
