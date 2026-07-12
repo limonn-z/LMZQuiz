@@ -313,7 +313,123 @@ Viết `ViewModel` (gọi qua Service ở 4.3) và `View` (XAML) thật cho `Cat
 
   ### Bước 4.4.2: Viết ViewModel cho từng màn hình (_đang làm_)
 
-  Viết ViewModel cho từng màn hình, theo đúng thứ tự đã làm ở 3.3 (từ đơn giản → phức tạp): CategoryViewModel → QuestionViewModel → AnswerViewModel (thường gộp chung màn với Question) → UserViewModel. Mỗi ViewModel chỉ gọi qua Service (đã xong ở 3.3), expose data + lệnh (Command) cho View dùng, không chứa luật nghiệp vụ (luật đã nằm hết bên Service rồi).
+  `ViewModel` là lớp trung gian giữa View (giao diện) và Service (nghiệp vụ) — giữ dữ liệu để View bind vào, giữ Command để View gọi khi người dùng thao tác. **Không chứa luật nghiệp vụ** (luật đã nằm hết ở Service, 3.3 làm rồi) — chỉ gọi Service và xử lý kết quả/lỗi.
+  - Dùng `CommunityToolkit.Mvvm`:
+    - `ObservableObject` — class cha, tự lo việc báo View cập nhật khi property đổi.
+    - `[ObservableProperty]` — gắn lên field **chữ thường** (VD: `categories`), lúc Build sẽ tự sinh ra property **chữ hoa** tương ứng (VD: `Categories`) kèm cơ chế báo View. Property sinh ra nằm ở 1 file ẩn (source generator), không nằm trong file mình viết — kiểm chứng bằng cách gõ vài chữ đầu, IntelliSense sẽ gợi ý ra property đó sau khi Build ít nhất 1 lần.
+    - `[RelayCommand]` — gắn lên hàm, tự sinh `ICommand` cùng tên + hậu tố `Command` (VD: hàm `AddCategoryAsync` → `AddCategoryCommand`) để Button trên View bind vào.
+    - **Quy tắc dùng:** trong thân các hàm (Load/Add/Edit/Remove), luôn dùng property **chữ hoa** để đọc/gán giá trị — không dùng field chữ thường trực tiếp (compiler tự cảnh báo lỗi `MVVMTK0034` nếu làm sai).
+    - Class ViewModel phải khai `partial` — bắt buộc để ghép được với phần code tự sinh.
+
+  - Bắt buộc `try/catch` vì Service ném Exception khi dữ liệu sai — không bắt lại thì Exception rơi thẳng ra làm crash app.
+  - `List<T>` (Service trả về) ≠ `ObservableCollection<T>` (View cần) — 2 kiểu khác nhau, phải chuyển đổi: `Categories = new ObservableCollection<Category>(list);`.
+
+  Ví dụ:
+
+  ```csharp
+  using QuizSystem.Business.Services;
+  using QuizSystem.Core.Models;
+  using CommunityToolkit.Mvvm.ComponentModel;
+  using CommunityToolkit.Mvvm.Input;
+  using System.Collections.ObjectModel;
+  using System.Windows;
+
+  namespace QuizSystem.WPF.ViewModels
+  {
+      public partial class CategoryViewModel(CategoryService categoryService) : ObservableObject
+      {
+          private readonly CategoryService _categoryService = categoryService;
+
+          [ObservableProperty]
+          private ObservableCollection categories = new();
+
+          [ObservableProperty]
+          private string newCategoryName = string.Empty;
+
+          [ObservableProperty]
+          private string newCategoryDescription = string.Empty;
+
+          [ObservableProperty]
+          private Category? selectedCategory;
+
+          [RelayCommand]
+          private async Task LoadCategoriesAsync()
+          {
+              var list = await _categoryService.GetAllCategoriesAsync();
+              Categories = new ObservableCollection(list);
+          }
+
+          [RelayCommand]
+          private async Task AddCategoryAsync()
+          {
+              try
+              {
+                  var newCategory = new Category
+                  {
+                      Name = NewCategoryName,
+                      Description = NewCategoryDescription
+                  };
+
+                  await _categoryService.AddCategoryAsync(newCategory);
+
+                  NewCategoryName = string.Empty;
+                  NewCategoryDescription = string.Empty;
+
+                  await LoadCategoriesAsync();
+              }
+              catch (Exception ex)
+              {
+                  MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+              }
+          }
+
+          [RelayCommand]
+          private async Task EditCategoryAsync()
+          {
+              try
+              {
+                  if (SelectedCategory == null)
+                      throw new Exception("A category must be selected for editing!");
+
+                  var updatedCategory = new Category
+                  {
+                      Id = SelectedCategory.Id,
+                      Name = NewCategoryName,
+                      Description = NewCategoryDescription
+                  };
+
+                  await _categoryService.EditCategoryAsync(updatedCategory);
+
+                  NewCategoryName = string.Empty;
+                  NewCategoryDescription = string.Empty;
+
+                  await LoadCategoriesAsync();
+              }
+              catch (Exception ex)
+              {
+                  MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+              }
+          }
+
+          [RelayCommand]
+          private async Task RemoveCategoryAsync()
+          {
+              try
+              {
+                  if (SelectedCategory == null)
+                      throw new ArgumentNullException(nameof(SelectedCategory), "A category must be selected for removing!");
+
+                  await _categoryService.RemoveCategoryAsync(SelectedCategory);
+                  await LoadCategoriesAsync();
+              }
+              catch (Exception ex)
+              {
+                  MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+              }
+          }
+      }
+  }
+  ```
 
   ### Bước 4.4.3: Viết View (XAML) khớp với từng ViewModel
 
