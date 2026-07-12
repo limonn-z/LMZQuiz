@@ -215,7 +215,7 @@ Viết `ViewModel` (gọi qua Service ở 4.3) và `View` (XAML) thật cho `Cat
 
 - Trước khi viết bất kỳ ViewModel nào, phải đăng ký DI cho Repository + Service trước — nếu không, ViewModel không có cách nào lấy được Service qua constructor.
 
-  ### Bước 4.4.1: Đăng kí DI (_đang làm_)
+  ### Bước 4.4.1: Đăng kí DI
 
   Vào `QuizSystem.WPF/app.xaml.cs theo khung như sau`:
 
@@ -311,7 +311,7 @@ Viết `ViewModel` (gọi qua Service ở 4.3) và `View` (XAML) thật cho `Cat
   }
   ```
 
-  ### Bước 4.4.2: Viết ViewModel cho từng màn hình
+  ### Bước 4.4.2: Viết ViewModel cho từng màn hình (_đang làm_)
 
   Viết ViewModel cho từng màn hình, theo đúng thứ tự đã làm ở 3.3 (từ đơn giản → phức tạp): CategoryViewModel → QuestionViewModel → AnswerViewModel (thường gộp chung màn với Question) → UserViewModel. Mỗi ViewModel chỉ gọi qua Service (đã xong ở 3.3), expose data + lệnh (Command) cho View dùng, không chứa luật nghiệp vụ (luật đã nằm hết bên Service rồi).
 
