@@ -29,8 +29,6 @@ namespace QuizSystem.Business.Services
                 throw new ArgumentNullException(nameof(updatedAnswer), "updatedAnswer cannot be null!");
             if (string.IsNullOrWhiteSpace(updatedAnswer.Content))
                 throw new ArgumentException("Answer content must not be empty!", nameof(updatedAnswer));
-            if (await _questionRepository.GetQuestionByIdAsync(updatedAnswer.QuestionId) == null)
-                throw new ArgumentException("This answer must be assigned to an existing question!", nameof(updatedAnswer));
 
             await _answerRepository.EditAnswerAsync(updatedAnswer);
         }
@@ -38,7 +36,7 @@ namespace QuizSystem.Business.Services
         public async Task RemoveAnswerAsync(Answer answer)
         {
             if (answer == null) 
-                throw new ArgumentNullException(nameof(answer), "updatedAnswer cannot be null!");
+                throw new ArgumentNullException(nameof(answer), "Answer cannot be null!");
 
             await _answerRepository.RemoveAnswerAsync(answer);
         }
@@ -46,7 +44,7 @@ namespace QuizSystem.Business.Services
         public async Task<Answer> GetAnswerByIdAsync(int id)
         {
             if (id <= 0) 
-                throw new ArgumentException(nameof(id), "Id must be greater than 0!");
+                throw new ArgumentException("Id must be greater than 0!", nameof(id));
 
             return await _answerRepository.GetAnswerByIdAsync(id)
                 ?? throw new KeyNotFoundException($"Answer with Id {id} not found!");

@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using QuizSystem.Core.Repositories;
 using QuizSystem.Data;
+using QuizSystem.Data.Repositories;
 using System.Windows;
 
 namespace QuizSystem.WPF
@@ -41,8 +43,8 @@ namespace QuizSystem.WPF
                     var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
 
                     // Từ giờ, mỗi khi ai cần AppDbContext, tự động tạo với connection string này
-                    services.AddDbContext<AppDbContext>(options =>
-                        options.UseSqlServer(connectionString));
+                    services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+                    
                 })
 
                 .Build();
