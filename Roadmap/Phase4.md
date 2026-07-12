@@ -1,15 +1,15 @@
-# ⏳ Giai đoạn 3 — Quản lý ngân hàng câu hỏi _(đang làm)_
+# ⏳ Giai đoạn 4 — Quản lý ngân hàng câu hỏi _(đang làm)_
 
 **Được chia theo 4 bước, đi từ trong ra ngoài (đúng chiều kiến trúc):**
 
 | Bước | Tầng       | Ví như        | Việc làm                                         |
 | ---- | ---------- | ------------- | ------------------------------------------------ |
-| 3.1  | `Core`     | Giấy hợp đồng | Viết Interface cho Repository                    |
-| 3.2  | `Data`     | Ký hợp đồng   | Viết Repository (code thật, dùng `AppDbContext`) |
-| 3.3  | `Business` | Gác cổng      | Viết Service (luật nghiệp vụ)                    |
-| 3.4  | `WPF`      |               | Viết ViewModel + View (giao diện thật)           |
+| 4.1  | `Core`     | Giấy hợp đồng | Viết Interface cho Repository                    |
+| 4.2  | `Data`     | Ký hợp đồng   | Viết Repository (code thật, dùng `AppDbContext`) |
+| 4.3  | `Business` | Gác cổng      | Viết Service (luật nghiệp vụ)                    |
+| 4.4  | `WPF`      |               | Viết ViewModel + View (giao diện thật)           |
 
-### Bước 3.1 — Interface
+### Bước 4.1 — Interface
 
 Tạo `QuizSystem.Core/Repositories/`, mỗi bảng trong `Model` là 1 file interface.
 
@@ -45,9 +45,9 @@ public interface I{Tên_bảng}Repository
   }
   ```
 
-### Bước 3.2 — Repository
+### Bước 4.2 — Repository
 
-Tạo `QuizSystem.Data/Repositories/`, mỗi file "ký hợp đồng" đúng interface tương ứng ở `bước 3.1`:
+Tạo `QuizSystem.Data/Repositories/`, mỗi file "ký hợp đồng" đúng interface tương ứng ở `bước 4.1`:
 
 - Ví dụ kham khảo:
   - Ở `QuizSystem.Core/Repositories/ICategoryRepository.cs`:
@@ -142,7 +142,7 @@ Tạo `QuizSystem.Data/Repositories/`, mỗi file "ký hợp đồng" đúng int
     - Vì giao tiếp và làm việc với database `SQL Server` nên tác vụ cần phải có thời gian để truy vấn và phản hồi. Vì vậy, `async + Task` luôn luôn đi đôi.
     - Tất cả những hàm như là `Add(), Remove(), ..` chỉ là đánh dấu và chưa tác động đến database. Nên muốn lưu lên database phải dùng lệnh `await _context.SaveChangesAsync();`, trong đó `await` là đợi chờ.
 
-### Bước 3.3 — Service
+### Bước 4.3 — Service
 
 Tạo `QuizSystem.Business/Services/`, mỗi Service chỉ nói chuyện qua `I{Tên_bảng}Repository`.
 
