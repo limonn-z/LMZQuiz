@@ -45,6 +45,8 @@ public interface I{Tên_bảng}Repository
   }
   ```
 
+=> Xong rồi thì CTRL + SHIFT + B xem ổn không.
+
 ### Bước 4.2 — Repository
 
 Tạo `QuizSystem.Data/Repositories/`, mỗi file "ký hợp đồng" đúng interface tương ứng ở `bước 4.1`:
@@ -142,6 +144,8 @@ Tạo `QuizSystem.Data/Repositories/`, mỗi file "ký hợp đồng" đúng int
     - Vì giao tiếp và làm việc với database `SQL Server` nên tác vụ cần phải có thời gian để truy vấn và phản hồi. Vì vậy, `async + Task` luôn luôn đi đôi.
     - Tất cả những hàm như là `Add(), Remove(), ..` chỉ là đánh dấu và chưa tác động đến database. Nên muốn lưu lên database phải dùng lệnh `await _context.SaveChangesAsync();`, trong đó `await` là đợi chờ.
 
+=> Xong rồi thì CTRL + SHIFT + B xem ổn không.
+
 ### Bước 4.3 — Service
 
 Tạo `QuizSystem.Business/Services/`, mỗi Service chỉ nói chuyện qua `I{Tên_bảng}Repository`.
@@ -200,3 +204,109 @@ public class {Ten}Service({Cac*Repository_can_tiem})
 
 - Ghi nhớ:
   - Bảng nào giữ khóa ngoại thì bảng đó phải tiêm repository của bảng bị trỏ tới để hỏi thẳng DB xem khóa ngoại đó có tồn tại thật không.
+
+=> Xong rồi thì CTRL + SHIFT + B xem ổn không.
+
+### Bước 4.4 — WPF (ViewModel + View)
+
+Viết `ViewModel` (gọi qua Service ở 4.3) và `View` (XAML) thật cho `Category`, `Question`, `Answer`, `User`.
+
+- Nhiệm vụ của nó là: điều phối giữa View (giao diện) và Service (nghiệp vụ) — lấy dữ liệu, expose ra cho View bind, nhận lệnh (Command) từ người dùng rồi gọi đúng Service tương ứng. **Không chứa luật nghiệp vụ** (luật đã nằm hết ở Service, 4.3 làm rồi).
+
+- Trước khi viết bất kỳ ViewModel nào, phải đăng ký DI cho Repository + Service trước — nếu không, ViewModel không có cách nào lấy được Service qua constructor.
+
+## Bước 1: Đăng kí DI
+
+Vào `QuizSystem.WPF/app.xaml.cs theo khung như sau`:
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using QuizSystem.Data;
+using System.Windows;
+using QuizSystem.Business.Services;
+using QuizSystem.Core.Repositories;
+using QuizSystem.Data.Repositories;
+
+namespace QuizSystem.WPF
+{
+    public partial class App : Application
+    {
+        public static IHost AppHost { get; private set; } = null!;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            AppHost = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration(config =>
+                {
+                    config.AddJsonFile("appsettings.json", optional: false);
+                })
+                .ConfigureServices((context, services) =>
+                {
+                    var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
+
+                    // Từ giờ, mỗi khi ai cần AppDbContext, tự động tạo với connection string này
+                    services.AddDbContext(options => options.UseSqlServer(connectionString));
+
+                    // Repository: đăng ký khớp Interface (Core) ↔ Class thật (Data)
+                    services.AddScoped();
+                    services.AddScoped();
+                    services.AddScoped();
+                    services.AddScoped();
+
+                    // Service: không có Interface, đăng ký thẳng class thật
+                    services.AddScoped();
+                    services.AddScoped();
+                    services.AddScoped();
+                    services.AddScoped();
+                })
+                .Build();
+
+            base.OnStartup(e);
+        }
+    }
+}
+
+```
+
+- Ví dụ:
+
+  ```csharp
+  protected override void OnStartup(StartupEventArgs e)
+  {
+      AppHost = Host.CreateDefaultBuilder()
+
+          .ConfigureAppConfiguration(config =>
+          {
+              config.AddJsonFile("appsettings.json", optional: false);
+          })
+
+          .ConfigureServices((context, services) =>
+          {
+              var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
+
+              // Từ giờ, mỗi khi ai cần AppDbContext, tự động tạo với connection string này
+              services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+              // Hễ ai cần interface(core) thì đưa họ một repository(data) thật => data giao tiếp với core
+              services.AddScoped<ICategoryRepository, CategoryRepository>();
+              services.AddScoped<IQuestionRepository, QuestionRepository>();
+              services.AddScoped<IAnswerRepository, AnswerRepository>();
+              services.AddScoped<IUserRepository, UserRepository>();
+
+              // Hễ ai cần service(business) thì tạo cho họ 1 cái
+              // Khi tạo, tự động nhìn vào constructor của service class cần gì (chính là interface)
+              // DI sẽ tự nối class service và interface giao tiếp với nhau mà ko cần qua data
+              services.AddScoped<CategoryService>();
+              services.AddScoped<QuestionService>();
+              services.AddScoped<AnswerService>();
+              services.AddScoped<UserService>();
+          })
+
+          .Build();
+
+      base.OnStartup(e);
+  }
+  ```
