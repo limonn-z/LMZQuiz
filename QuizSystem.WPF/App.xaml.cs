@@ -7,6 +7,7 @@ using System.Windows;
 using QuizSystem.Business.Services;
 using QuizSystem.Core.Repositories;
 using QuizSystem.Data.Repositories;
+using QuizSystem.WPF.ViewModels;
 
 namespace QuizSystem.WPF
 {
@@ -53,6 +54,7 @@ namespace QuizSystem.WPF
                     services.AddScoped<QuestionService>();
                     services.AddScoped<AnswerService>();
                     services.AddScoped<UserService>();
+                    services.AddScoped<CategoryViewModel>();
                 })
 
                 .Build();

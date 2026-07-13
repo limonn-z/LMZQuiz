@@ -303,6 +303,9 @@ Viết `ViewModel` (gọi qua Service ở 4.3) và `View` (XAML) thật cho `Cat
               services.AddScoped<QuestionService>();
               services.AddScoped<AnswerService>();
               services.AddScoped<UserService>();
+
+              // ViewModel, nhớ đăng ký luôn khi viết xong ViewModel nào
+              services.AddScoped<CategoryViewModel>();
           })
 
           .Build();
@@ -433,4 +436,41 @@ Viết `ViewModel` (gọi qua Service ở 4.3) và `View` (XAML) thật cho `Cat
 
   ### Bước 4.4.3: Viết View (XAML) khớp với từng ViewModel
 
-  Viết View (XAML) khớp với từng ViewModel — giao diện thật để nhập/xem/sửa/xóa dữ liệu.
+  Vào `MainWindow.xaml.cs`, code theo khuôn dưới đây:
+
+  ```csharp
+    using System.Text;
+    using System.Windows.Controls;
+    using System.Windows.Data;
+    using System.Windows.Documents;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+    using System.Windows.Navigation;
+    using System.Windows.Shapes;
+    using System.Windows;
+    using Microsoft.Extensions.DependencyInjection;
+    using QuizSystem.WPF.ViewModels;
+
+    namespace QuizSystem.WPF
+    {
+        public partial class MainWindow : Window
+        {
+            public MainWindow()
+            {
+                InitializeComponent();
+
+                // Xin DI container 1 CategoryViewModel (đã đăng ký ở App.xaml.cs),
+                // gắn làm "bộ não" cho cửa sổ này.
+                DataContext = App.AppHost.Services.GetRequiredService<CategoryViewModel>();
+            }
+
+            private async void Window_Loaded(object sender, RoutedEventArgs e) // Thuộc về CategoryViewModel
+            {
+                // Load danh sách ngay khi cửa sổ vừa hiện lên
+                var vm = (CategoryViewModel)DataContext;
+                await vm.LoadCategoriesCommand.ExecuteAsync(null);
+            }
+        }
+    }
+  ```

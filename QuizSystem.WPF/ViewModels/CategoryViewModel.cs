@@ -62,7 +62,7 @@ namespace QuizSystem.WPF.ViewModels
             try
             {
                 if (SelectedCategory == null)
-                    throw new Exception("A category must be selected for removing!");
+                    throw new InvalidOperationException("A category must be selected for removing!");
 
                 await _categoryService.RemoveCategoryAsync(SelectedCategory);
                 await LoadCategoriesAsync();
@@ -84,7 +84,7 @@ namespace QuizSystem.WPF.ViewModels
             try
             {
                 if (SelectedCategory == null)
-                    throw new Exception("A category must be selected for editing!");
+                    throw new InvalidOperationException("A category must be selected for editing!");
 
                 var updatedCategory = new Category
                 {
