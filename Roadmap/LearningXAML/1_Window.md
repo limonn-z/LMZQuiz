@@ -2,7 +2,7 @@
 
 > `Window` = 1 class có sẵn trong WPF, đại diện cho **1 cửa sổ** hiện lên màn hình máy tính. Mọi app WPF đều có ít nhất 1 `Window` — chính là `MainWindow` bạn đang có.
 
-## Cách so sánh - khai báo tối giản nhất:
+## 1/ Cách khai báo - so sánh tối giản nhất:
 
     ```xml
     <Window Title="App của tôi" Height="450" Width="800">
@@ -17,7 +17,7 @@
     w.Width = 800;
     ```
 
-## 3 property hay dùng nhất
+## 2/ 3 property hay dùng nhất
 
 | Property | Ý nghĩa                                                |
 | -------- | ------------------------------------------------------ |
@@ -25,7 +25,7 @@
 | `Height` | Chiều cao cửa sổ, tính bằng pixel                      |
 | `Width`  | Chiều rộng cửa sổ, tính bằng pixel                     |
 
-## `Window` chỉ chứa được **đúng 1 thứ** bên trong
+## 3/ `Window` chỉ chứa được **đúng 1 thứ** bên trong
 
 Đây là điều quan trọng nhất cần nhớ: `Window` có property `Content` (thẻ lồng bên trong = gán vào `Content`), nhưng `Content` **chỉ nhận 1 object duy nhất**. Không viết được kiểu này:
 
