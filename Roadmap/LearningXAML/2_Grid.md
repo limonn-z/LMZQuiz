@@ -64,7 +64,16 @@ thì tương đương với:
 
 Nghĩa là control sẽ nằm ở **hàng đầu tiên** và **cột đầu tiên**.
 
-## 4/ Ví dụ sử dụng
+## 4/ `Grid` không tự vẽ đường viền
+
+`Grid` chỉ là bảng **vô hình** dùng để định vị trí, không phải bảng có viền như Excel hay HTML. Khai `RowDefinitions`/`ColumnDefinitions` xong in ra sẽ **không thấy đường kẻ nào** giữa các ô.
+
+- `Border` là control chuyên vẽ khung viền, có `BorderBrush` (màu viền) và `BorderThickness` (độ dày viền).
+- Mỗi ô muốn có viền phải **tự bọc `Border`** — `Grid` không tự làm việc này.
+
+## 5/ Ví dụ sử dụng
+
+Ví dụ không viền:
 
 ```xml
     <Grid>
@@ -85,6 +94,31 @@ Nghĩa là control sẽ nằm ở **hàng đầu tiên** và **cột đầu tiê
         <TextBlock Text = "Password"
                 Grid.Row="0"
                 Grid.Column="1"/>
+    </Grid>
+```
+
+Ví dụ có viền:
+
+```xml
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="0">
+            <TextBlock Text="Username"/>
+        </Border>
+
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="1">
+            <TextBlock Text="Password"/>
+        </Border>
+
     </Grid>
 ```
 
