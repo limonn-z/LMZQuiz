@@ -7,38 +7,28 @@
         mc:Ignorable="d"
         Title="LMZQuiz" Height="450" Width="800">
 
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Hàng 1: form nhập + 3 nút -->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
-            <TextBox Width="150" Margin="0,0,5,0"
-                     Text="{Binding NewCategoryName, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBox Width="200" Margin="0,0,10,0"
-                     Text="{Binding NewCategoryDescription, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Content="Thêm" Width="70" Margin="0,0,5,0"
-                    Command="{Binding AddCategoryCommand}"/>
-            <Button Content="Sửa" Width="70" Margin="0,0,5,0"
-                    Command="{Binding EditCategoryCommand}" />
-            <Button Content="Xóa" Width="70"
-                    Command="{Binding RemoveCategoryCommand}" />
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Hàng 2: bảng danh sách -->
-        <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding Categories}"
-                  SelectedItem="{Binding SelectedCategory}"
-                  AutoGenerateColumns="False"
-                  IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Tên môn học" Binding="{Binding Name}" Width="150"/>
-                <DataGridTextColumn Header="Mô tả" Binding="{Binding Description}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <TextBlock Text="Name"
+               Grid.Row="0"
+               Grid.Column="0"/>
+
+        <TextBox Text="hello" 
+             Grid.Row="0"
+             Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,0,416" Grid.RowSpan="2" Width="650"/>
+
+        <Button Content="Save"
+            Grid.Row="1"
+            Grid.Column="1"/>
     </Grid>
 </Window>
 
