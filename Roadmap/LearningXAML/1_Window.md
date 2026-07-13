@@ -2,7 +2,7 @@
 
 > `Window` = 1 class có sẵn trong WPF, đại diện cho **1 cửa sổ** hiện lên màn hình máy tính. Mọi app WPF đều có ít nhất 1 `Window` — chính là `MainWindow` bạn đang có.
 
-## 1/ Cách khai báo - so sánh tối giản nhất:
+## 1/ Cách khai báo — so sánh với C#:
 
     ```xml
     <Window Title="App của tôi" Height="450" Width="800">
@@ -39,12 +39,12 @@
 
 Đây là lý do **bắt buộc phải có `Grid`/`StackPanel` bọc ở ngoài** — để "gộp nhiều thứ lại thành 1 gói", rồi nhét cả gói đó vào `Content` của `Window`:
 
-```xml
-<!-- ĐÚNG — Grid là "1 gói", chứa được nhiều thứ bên trong nó -->
-<Window>
-    <Grid>
-        <TextBox />
-        <Button />
-    </Grid>
-</Window>
-```
+    ```xml
+    <!-- ĐÚNG — Grid là "1 gói", chứa được nhiều thứ bên trong nó -->
+    <Window>
+        <Grid>
+            <TextBox />
+            <Button />
+        </Grid>
+    </Window>
+    ```
