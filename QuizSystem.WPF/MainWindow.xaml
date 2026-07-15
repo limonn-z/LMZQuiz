@@ -44,20 +44,17 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height = "Auto"/>
-            <RowDefinition Height = "*"/> 
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width = "100"/>
-            <ColumnDefinition Width = "*"/>
-        </Grid.ColumnDefinitions>
 
-        <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="1">
-            <TextBlock Text="Username"/>
-        </Border>
-        <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="1">
-            <TextBlock Text="Password"/>
-        </Border>
+        <TextBlock Grid.Row="0" Text="Nội dung chính"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="OK" Margin="0,0,8,0"/>
+            <Button Content="Cancel"/>
+            <Button Content="Apply"/>
+        </StackPanel>
     </Grid>
 </Window>
 
