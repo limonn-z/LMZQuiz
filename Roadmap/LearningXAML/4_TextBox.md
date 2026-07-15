@@ -72,3 +72,42 @@ private void MyTextBox_TextChanged(object sender, TextChangedEventArgs e)
 ```
 
 Nhưng vì project đang theo mô hình **MVVM**, nên **ưu tiên Binding + `UpdateSourceTrigger`** thay vì bắt event `TextChanged` trong `.xaml.cs` — giữ code UI sạch, toàn bộ logic nằm ở ViewModel, không rải rác qua 2 nơi.
+
+## 7/ Ví dụ tổng hợp — Code và kết quả hiển thị
+
+```xml
+<StackPanel Margin="10">
+    <TextBlock Text="Họ tên:"/>
+    <TextBox Width="250"
+             Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
+             Margin="0,4,0,12"/>
+
+    <TextBlock Text="Ghi chú:"/>
+    <TextBox Width="250" Height="60"
+             TextWrapping="Wrap"
+             AcceptsReturn="True"
+             MaxLength="100"
+             Text="{Binding Note}"/>
+</StackPanel>
+```
+
+Kết quả hiển thị trên cửa sổ:
+
+```
+Họ tên:
+┌───────────────────────────┐
+│ Nguyễn Văn A               │   ← gõ tới đâu, FullName bên
+└───────────────────────────┘      ViewModel đổi tới đó (PropertyChanged)
+
+Ghi chú:
+┌───────────────────────────┐
+│ Ghi chú dài sẽ tự động     │   ← nhờ TextWrapping="Wrap"
+│ xuống dòng khi hết bề      │      + AcceptsReturn="True"
+│ ngang, không tràn ra ngoài │
+└───────────────────────────┘
+```
+
+Giải thích 2 TextBox trong ví dụ:
+
+- **Họ tên** — chỉ 1 dòng, có `UpdateSourceTrigger=PropertyChanged` nên gõ tới ký tự nào, `FullName` bên ViewModel cập nhật ngay ký tự đó, không cần click ra ngoài.
+- **Ghi chú** — cao 60px, `TextWrapping="Wrap"` + `AcceptsReturn="True"` nên chữ dài tự xuống dòng và Enter xuống dòng được; giới hạn tối đa 100 ký tự (`MaxLength`); vì **không** khai `UpdateSourceTrigger` nên dùng mặc định `LostFocus` — `Note` chỉ cập nhật khi click ra khỏi ô này.
