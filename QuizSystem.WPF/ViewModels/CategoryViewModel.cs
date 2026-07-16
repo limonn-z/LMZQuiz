@@ -18,6 +18,8 @@ namespace QuizSystem.WPF.ViewModels
         [ObservableProperty]
         private string newCategoryDescription = string.Empty;
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RemoveCategoryCommand))]
+        [NotifyCanExecuteChangedFor(nameof(EditCategoryCommand))]
         private Category? selectedCategory = null;
 
         [RelayCommand]
@@ -56,7 +58,7 @@ namespace QuizSystem.WPF.ViewModels
             }
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanEditOrRemove))]
         private async Task RemoveCategoryAsync()
         {
             try
@@ -78,7 +80,7 @@ namespace QuizSystem.WPF.ViewModels
             }
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanEditOrRemove))]
         private async Task EditCategoryAsync()
         {
             try
@@ -110,5 +112,7 @@ namespace QuizSystem.WPF.ViewModels
                 );
             }
         }
+        
+        private bool CanEditOrRemove() => SelectedCategory != null;
     }
 }
