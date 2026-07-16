@@ -93,12 +93,13 @@ Kết quả hiển thị:
 
 ```
 ┌─────────────────┬───────────────────────────────┐
-│ Tên danh mục     │ Mô tả                          │
+│ Tên danh mục    │ Mô tả                         │
 ├─────────────────┼───────────────────────────────┤
-│ Toán học         │ Câu hỏi về đại số, hình học     │  ← click dòng này
+│ Toán học        │ Câu hỏi về đại số, hình học   │  ← click dòng này
 ├─────────────────┼───────────────────────────────┤     → SelectedCategory
-│ Lịch sử          │ Câu hỏi về sự kiện lịch sử       │     tự đổi thành object
+│ Lịch sử         │ Câu hỏi về sự kiện lịch sử    │     tự đổi thành object
 └─────────────────┴───────────────────────────────┘     Category "Lịch sử"
+
 ```
 
 Click chọn dòng "Lịch sử" → `SelectedCategory` tự đổi → nhờ mục 5-6 bài 5 (`NotifyCanExecuteChangedFor`), nút "Sửa"/"Xóa" tự sáng lên, sẵn sàng thao tác trên đúng dòng vừa chọn.
