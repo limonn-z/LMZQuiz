@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Thông tin cá nhân" Height="450" Width="800">
 
-    <!--
+    
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -40,8 +40,9 @@
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
-    -->
     
+    
+    <!--
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -85,6 +86,7 @@
             />
         </StackPanel>
     </Grid> 
+    -->
 </Window>
 
 
